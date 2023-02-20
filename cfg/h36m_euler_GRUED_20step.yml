@@ -1,0 +1,13 @@
+hidden_dim: 512
+num_layers: 1
+
+batch_size: 512
+max_epoch: 500
+save_epoch: 100
+epoch_iters: 100
+learning_rate: 1.e-4
+
+diff_steps: 20
+beta_start: 0.001
+beta_end: 0.333
+beta_schedule: linear
