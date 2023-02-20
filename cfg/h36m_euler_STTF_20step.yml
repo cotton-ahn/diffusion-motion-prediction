@@ -1,5 +1,5 @@
 qkv_dim: 512
-num_layers: 1
+num_layers: 6
 num_heads: 8
 
 batch_size: 512

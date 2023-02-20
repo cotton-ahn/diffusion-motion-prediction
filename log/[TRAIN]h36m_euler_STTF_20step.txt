@@ -1,2 +1,0 @@
-[EPOCH 0] train average loss: 1.034865483045578
-[EPOCH 1] train average loss: 1.0123603963851928
