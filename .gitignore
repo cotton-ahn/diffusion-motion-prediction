@@ -342,3 +342,4 @@ data/h3.6m/dataset/S9/walkingdog_1.txt
 data/h3.6m/dataset/S9/walkingdog_2.txt
 data/h3.6m/dataset/S9/walkingtogether_1.txt
 data/h3.6m/dataset/S9/walkingtogether_2.txt
+eval.py

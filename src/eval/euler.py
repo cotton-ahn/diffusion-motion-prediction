@@ -166,9 +166,11 @@ def compute_stats_euler(multi, f, model, actions, test_set, data_mean, data_std,
             # get prediction result
             if multi:
                 num_samples = 50
+                # extract metrics when doing stochastic prediction.
                 val_prefix = val_prefix.repeat(1, num_samples, 1)
                 pred_result = model.sample(val_prefix, pred_len, pose_dim, use_zero=False)
             else:
+                # use_zero=True makes the model not use stochastic process. it is only for deterministic prediction
                 pred_result = model.sample(val_prefix, pred_len, pose_dim, use_zero=True)
 
             # denormalize the output
