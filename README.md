@@ -23,4 +23,6 @@ A repository of a paper named "Can We Use Diffusion Probabilistic Models for 3D 
 ### Evaluation
 
 
+### Make comparison with DLow
+
 
