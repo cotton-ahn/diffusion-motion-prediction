@@ -4,7 +4,7 @@ import torch.nn as nn
 
 
 class DDPM(nn.Module):
-    def __init__(self, denoiser, cfg):
+    def __init__(self, denoiser, cfg, device):
         super().__init__()
 
         self.denoiser = denoiser
@@ -16,7 +16,7 @@ class DDPM(nn.Module):
 
         self.alpha_hat = 1 - self.beta
         self.alpha = np.cumprod(self.alpha_hat)
-        self.alpha_torch = torch.FloatTensor(self.alpha)
+        self.alpha_torch = torch.FloatTensor(self.alpha).to(device)
         print('==============alpha schedule============')
         print(self.alpha ** 0.5)
         print((1-self.alpha)**0.5)

@@ -19,7 +19,7 @@ from src.dataset.xyz import DatasetH36M, DatasetHumanEva
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--cfg', default='h36m_euler_STTF_50step')
+    parser.add_argument('--cfg', default='h36m_euler_STTF_20step')
     parser.add_argument('--seed', type=int, default=0)
     parser.add_argument('--gpu-id', type=int, default=0)
     
@@ -29,7 +29,8 @@ if __name__ == '__main__':
     set_random_seed(args.seed)
     device = 'cuda:{}'.format(args.gpu_id) if args.gpu_id >= 0 else 'cpu'
 
-    f = open('./logs/[TRAIN]{}.txt'.format(args.cfg), 'w')
+    os.makedirs('./log', exist_ok=True)
+    f = open('./log/[TRAIN]{}.txt'.format(args.cfg), 'w')
 
     if 'euler' in args.cfg:
         # fixed prefix and pred length
@@ -56,7 +57,7 @@ if __name__ == '__main__':
             denoiser = STTF_Denoiser(pose_dim, cfg.qkv_dim, cfg.num_layers, cfg.num_heads, 
                                      prefix_len, pred_len, cfg.diff_steps)
          
-        ddpm = DDPM(denoiser, cfg).to(device)
+        ddpm = DDPM(denoiser, cfg, device).to(device)
 
         optimizer = torch.optim.Adam(ddpm.parameters(), lr=cfg.learning_rate)
 
