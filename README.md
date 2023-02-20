@@ -1,7 +1,7 @@
 # Can We Use Diffusion Probabilistic Models for 3D Motion Prediction?
 A repository of a paper named "Can We Use Diffusion Probabilistic Models for 3D Motion Prediction?", accepted to ICRA 2023.
 
-### Installation
+## Installation
 - Tested Environment
     * Ubuntu 20.04
     * Python 3.9 with Anaconda
@@ -13,6 +13,9 @@ A repository of a paper named "Can We Use Diffusion Probabilistic Models for 3D 
 5. Prepare dataset (human3.6m and humaneva) as [DLow]('https://github.com/Khrylx/DLow') suggests, and put `*.npz` files to `./data` and `./DLow/data`.
 6. Copy `*.yml` files in `cfg/dlow` of our repository into `DLow/motion_pred/cfg`, by `cp cfg/dlow/*.yml DLow/motion_pred/cfg`.
 
+## Preprocess
+- Before conducting experiments with Human 3.6M dataset, you need to run `python preprocess.py` first.
+- After running the code, `h36m_euler.pkl` will be created in `./data`.
 
 ### Training
 

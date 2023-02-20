@@ -10,7 +10,7 @@ sys.path.append(os.getcwd())
 from src.utils.general import set_random_seed
 from src.utils.euler import define_actions
 from src.config import Config
-from src.net import TF2CH_Denoiser, STTF_Denoiser, TSTF_Denoiser
+from src.net import TF2CH_Denoiser, STTF_Denoiser
 from src.diff import DDPM
 from src.train.euler import train_euler
 from src.train.xyz import train_xyz
@@ -49,14 +49,11 @@ if __name__ == '__main__':
         dim_to_use = data['dim_to_use']
 
         ## define network 
-        if '_TF2CH_' in args.cfg:
+        if '_TF2CH_' in args.cfg: # "parallel" model in paper
             denoiser = TF2CH_Denoiser(pose_dim, cfg.qkv_dim, cfg.num_layers, cfg.num_heads, 
                                      prefix_len, pred_len, cfg.diff_steps)
-        elif '_STTF_' in args.cfg:
+        elif '_STTF_' in args.cfg: # "series" model in paper.
             denoiser = STTF_Denoiser(pose_dim, cfg.qkv_dim, cfg.num_layers, cfg.num_heads, 
-                                     prefix_len, pred_len, cfg.diff_steps)
-        elif '_TSTF_' in args.cfg:
-            denoiser = TSTF_Denoiser(pose_dim, cfg.qkv_dim, cfg.num_layers, cfg.num_heads, 
                                      prefix_len, pred_len, cfg.diff_steps)
          
         ddpm = DDPM(denoiser, cfg).to(device)
@@ -72,7 +69,7 @@ if __name__ == '__main__':
         f.close()
         
     elif 'xyz' in args.cfg:
-        # fixed!
+        # fixed values! do not change.
         prefix_len = 25
         pred_len = 100
 
@@ -83,16 +80,13 @@ if __name__ == '__main__':
         dataset = dataset_cls('train', prefix_len, pred_len, actions='all')
 
         ## define network 
-        if '_TF2CH_' in args.cfg:
+        if '_TF2CH_' in args.cfg: # "parallel" model in paper
             denoiser = TF2CH_Denoiser(dataset.traj_dim, cfg.qkv_dim, cfg.num_layers, cfg.num_heads, 
                                      prefix_len, pred_len, cfg.diff_steps)
-        elif '_STTF_' in args.cfg:
+        elif '_STTF_' in args.cfg: # "series" model in paper
             denoiser = STTF_Denoiser(dataset.traj_dim, cfg.qkv_dim, cfg.num_layers, cfg.num_heads, 
                                      prefix_len, pred_len, cfg.diff_steps)
-        elif '_TSTF_' in args.cfg:
-            denoiser = TSTF_Denoiser(dataset.traj_dim, cfg.qkv_dim, cfg.num_layers, cfg.num_heads, 
-                                     prefix_len, pred_len, cfg.diff_steps)
-        
+       
 
         ddpm = DDPM(denoiser, cfg).to(device)
 
