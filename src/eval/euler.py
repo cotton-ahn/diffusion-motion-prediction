@@ -166,7 +166,9 @@ def compute_stats_euler(multi, f, model, actions, test_set, data_mean, data_std,
             # get prediction result
             if multi:
                 num_samples = 50
-                # extract metrics when doing stochastic prediction.
+                # This experiment is not valid for reproducing paper results
+                # This extracts deterministic metrics from various motion samples that are obtained from stochastic prediction.
+                # possible Q : why you did this? A : sorry I forgot why but only remember that this was just for try.
                 val_prefix = val_prefix.repeat(1, num_samples, 1)
                 pred_result = model.sample(val_prefix, pred_len, pose_dim, use_zero=False)
             else:
