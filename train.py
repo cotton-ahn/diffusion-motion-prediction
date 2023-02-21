@@ -10,7 +10,7 @@ sys.path.append(os.getcwd())
 from src.utils.general import set_random_seed
 from src.utils.euler import define_actions
 from src.config import Config
-from src.net import TF2CH_Denoiser, STTF_Denoiser
+from src.net import Parallel_Denoiser, Series_Denoiser
 from src.diff import DDPM
 from src.train.euler import train_euler
 from src.train.xyz import train_xyz
@@ -19,7 +19,7 @@ from src.dataset.xyz import DatasetH36M, DatasetHumanEva
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--cfg', default='h36m_euler_STTF_50step')
+    parser.add_argument('--cfg', default='h36m_euler_TF2CH_100step')
     parser.add_argument('--seed', type=int, default=0)
     parser.add_argument('--gpu-id', type=int, default=0)
     
@@ -50,11 +50,11 @@ if __name__ == '__main__':
         dim_to_use = data['dim_to_use']
 
         ## define network 
-        if '_TF2CH_' in args.cfg: # "parallel" model in paper
-            denoiser = TF2CH_Denoiser(pose_dim, cfg.qkv_dim, cfg.num_layers, cfg.num_heads, 
+        if '_parallel_' in args.cfg: # "parallel" model in paper
+            denoiser = Parallel_Denoiser(pose_dim, cfg.qkv_dim, cfg.num_layers, cfg.num_heads, 
                                      prefix_len, pred_len, cfg.diff_steps)
-        elif '_STTF_' in args.cfg: # "series" model in paper.
-            denoiser = STTF_Denoiser(pose_dim, cfg.qkv_dim, cfg.num_layers, cfg.num_heads, 
+        elif '_series_' in args.cfg: # "series" model in paper.
+            denoiser = Series_Denoiser(pose_dim, cfg.qkv_dim, cfg.num_layers, cfg.num_heads, 
                                      prefix_len, pred_len, cfg.diff_steps)
          
         ddpm = DDPM(denoiser, cfg, device).to(device)
@@ -81,11 +81,11 @@ if __name__ == '__main__':
         dataset = dataset_cls('train', prefix_len, pred_len, actions='all')
 
         ## define network 
-        if '_TF2CH_' in args.cfg: # "parallel" model in paper
-            denoiser = TF2CH_Denoiser(dataset.traj_dim, cfg.qkv_dim, cfg.num_layers, cfg.num_heads, 
+        if '_parallel_' in args.cfg: # "parallel" model in paper
+            denoiser = Parallel_Denoiser(dataset.traj_dim, cfg.qkv_dim, cfg.num_layers, cfg.num_heads, 
                                      prefix_len, pred_len, cfg.diff_steps)
-        elif '_STTF_' in args.cfg: # "series" model in paper
-            denoiser = STTF_Denoiser(dataset.traj_dim, cfg.qkv_dim, cfg.num_layers, cfg.num_heads, 
+        elif '_series_' in args.cfg: # "series" model in paper
+            denoiser = Series_Denoiser(dataset.traj_dim, cfg.qkv_dim, cfg.num_layers, cfg.num_heads, 
                                      prefix_len, pred_len, cfg.diff_steps)
        
 

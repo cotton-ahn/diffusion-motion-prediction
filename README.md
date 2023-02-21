@@ -11,7 +11,8 @@ A repository of a paper named "Can We Use Diffusion Probabilistic Models for 3D 
     * In my case, since I use cuda=11.6, I used command `conda install pytorch torchvision torchaudio pytorch-cuda=11.6 -c pytorch -c nvidia` to install pytorch.
 4. Clone [DLow]('https://github.com/Khrylx/DLow') repository.
 5. Prepare dataset (human3.6m and humaneva) as [DLow]('https://github.com/Khrylx/DLow') suggests, and put `*.npz` files to `./data` and `./DLow/data`.
-6. Copy `*.yml` files in `cfg/dlow` of our repository into `DLow/motion_pred/cfg`, by `cp cfg/dlow/*.yml DLow/motion_pred/cfg`.
+6. Copy `*.yml` files in `cfg/dlow` of our repository into `DLow/motion_pred/cfg`.
+7. Copy `./src/dlow/eval.py` of our repository into `DLow/motion_pred/eval.py`.
 
 ## Preprocess
 - Before conducting experiments with Human 3.6M dataset, you need to run `python preprocess.py` first.
@@ -24,5 +25,5 @@ A repository of a paper named "Can We Use Diffusion Probabilistic Models for 3D 
 
 
 ### Make comparison with DLow
-
+- DLow codes are so well written, so (1) adding our config files to cloned DLow repository and (2) running the DLow code is enough. Below is the detailed process.
 
