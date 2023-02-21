@@ -1,0 +1,16 @@
+[EPOCH 0] train average loss: 1.0350789606571198
+[EPOCH 1] train average loss: 1.01220477104187
+[EPOCH 2] train average loss: 0.5997826056182386
+[EPOCH 3] train average loss: 0.23576902419328688
+[EPOCH 4] train average loss: 0.19712866514921193
+[EPOCH 5] train average loss: 0.1762077046930791
+[EPOCH 6] train average loss: 0.16239978954195972
+[EPOCH 7] train average loss: 0.15393799871206282
+[EPOCH 8] train average loss: 0.14932337105274202
+[EPOCH 9] train average loss: 0.14234124526381492
+[EPOCH 10] train average loss: 0.13740541711449616
+[EPOCH 11] train average loss: 0.13430568911135196
+[EPOCH 12] train average loss: 0.13145384192466736
+[EPOCH 13] train average loss: 0.12701366655528548
+[EPOCH 14] train average loss: 0.12446390949189659
+[EPOCH 15] train average loss: 0.12270055629312988

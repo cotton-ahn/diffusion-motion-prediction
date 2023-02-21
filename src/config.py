@@ -27,11 +27,8 @@ class Config:
             self.beta_start = cfg['beta_start']
             self.beta_end = cfg['beta_end']
             self.beta_schedule = cfg['beta_schedule']
-        if 'TF' in cfg_id:
+        if 'series' in cfg_id or 'parallel' in cfg_id:
             self.qkv_dim = cfg['qkv_dim']
             self.num_layers = cfg['num_layers']
             self.num_heads = cfg['num_heads']
         
-        if 'GRU' in cfg_id:
-            self.hidden_dim = cfg['hidden_dim']
-            self.num_layers = cfg['num_layers']
