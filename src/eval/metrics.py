@@ -13,68 +13,34 @@ def compute_diversity(pred, *args):
     return diversity
 
 
-def compute_ade(pred, gt, *args):
+def compute_min_de(pred, gt, *args):
     diff = pred - gt 
     dist = np.linalg.norm(diff, axis=2).mean(axis=1)
     return dist.min()
 
-def compute_mde(pred, gt, *args):
+def compute_avg_de(pred, gt, *args):
     diff = pred - gt
     dist = np.linalg.norm(diff, axis=2).mean(axis=1)
     return np.mean(dist)
 
 
-def compute_sde(pred, gt, *args):
+def compute_std_de(pred, gt, *args):
     diff = pred - gt
     dist = np.linalg.norm(diff, axis=2).mean(axis=1)
     return np.std(dist)
 
 
-def compute_fde(pred, gt, *args):
+def compute_min_fde(pred, gt, *args):
     diff = pred - gt
     dist = np.linalg.norm(diff, axis=2)[:, -1]
     return dist.min()
 
-
-def compute_mfde(pred, gt, *args):
+def compute_avg_fde(pred, gt, *args):
     diff = pred - gt
     dist = np.linalg.norm(diff, axis=2)[:, -1]
     return dist.mean()
 
-def compute_sfde(pred, gt, *args):
+def compute_std_fde(pred, gt, *args):
     diff = pred - gt
     dist = np.linalg.norm(diff, axis=2)[:, -1]
     return dist.std()
-
-def compute_mmade(pred, gt, gt_multi):
-    gt_dist = []
-    for gt_multi_i in gt_multi:
-        dist = compute_ade(pred, gt_multi_i)
-        gt_dist.append(dist)
-    gt_dist = np.array(gt_dist).mean()
-    return gt_dist
-
-def compute_mmmde(pred, gt, gt_multi):
-    gt_dist = []
-    for gt_multi_i in gt_multi:
-        dist = compute_mde(pred, gt_multi_i)
-        gt_dist.append(dist)
-    gt_dist = np.array(gt_dist).mean()
-    return gt_dist
-
-
-def compute_mmfde(pred, gt, gt_multi):
-    gt_dist = []
-    for gt_multi_i in gt_multi:
-        dist = compute_fde(pred, gt_multi_i)
-        gt_dist.append(dist)
-    gt_dist = np.array(gt_dist).mean()
-    return gt_dist
-
-def compute_mmmfde(pred, gt, gt_multi):
-    gt_dist = []
-    for gt_multi_i in gt_multi:
-        dist = compute_mfde(pred, gt_multi_i)
-        gt_dist.append(dist)
-    gt_dist = np.array(gt_dist).mean()
-    return gt_dist

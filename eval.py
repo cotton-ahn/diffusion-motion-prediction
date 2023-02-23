@@ -20,7 +20,7 @@ from src.viz.xyz import visualize_xyz
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--cfg', default='h36m_xyz_parallel_20step')
+    parser.add_argument('--cfg', default='h36m_xyz_series_20step')
     parser.add_argument('--seed', type=int, default=0)
     parser.add_argument('--gpu-id', type=int, default=0)
     parser.add_argument('--sample-num', type=int, default=50)
@@ -118,7 +118,7 @@ if __name__ == '__main__':
                                          prefix_len, pred_len, cfg.diff_steps)
 
         ddpm = DDPM(denoiser, cfg, device).to(device)
-        ddpm.load_state_dict(torch.load(osp.join(cfg.model_dir, '0200.pth'.format(cfg.max_epoch))))
+        ddpm.load_state_dict(torch.load(osp.join(cfg.model_dir, '0500.pth'.format(cfg.max_epoch))))
         ddpm.eval()
 
         traj_gt_arr = get_multimodal_gt(dataset, prefix_len, 0.5)
