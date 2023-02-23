@@ -25,5 +25,11 @@ A repository of a paper named "Can We Use Diffusion Probabilistic Models for 3D 
 
 
 ### Make comparison with DLow
-- DLow codes are so well written, so (1) adding our config files to cloned DLow repository and (2) running the DLow code is enough. Below is the detailed process.
+- DLow codes are so well written! So (1) adding our config files and evalataion code to cloned DLow repository and (2) running the DLow code in DLow repository is enough. Below is the detailed process.
 
+1. 
+
+
+### todo list
+- finish training the code and get results
+- get more visualization results for adding it to webpage 

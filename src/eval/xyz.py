@@ -3,7 +3,7 @@ import torch
 from scipy.spatial.distance import pdist, squareform
 from src.eval.metrics import *
 import pickle
-
+import os
 # code from DLow
 class AverageMeter(object):
     """Computes and stores the average and current value"""
@@ -87,9 +87,8 @@ def sample_xyz(out_path, algos, models, sample_num, prefix_num, dataset, prefix_
 
 
 def compute_stats_xyz(f, algos, models, dataset, traj_gt_arr,  prefix_len, pred_len, sample_num, device):
-    stats_func = {'Diversity': compute_diversity, 'ADE': compute_ade, 'MDE': compute_mde, 'SDE': compute_sde,
-                  'FDE': compute_fde, 'MFDE': compute_mfde, 'SFDE': compute_sfde, 'MMADE': compute_mmade, 'MMMDE': compute_mmmde, 
-                  'MMFDE': compute_mmfde, 'MMMFDE': compute_mmmfde}
+    stats_func = {'Diversity': compute_diversity, 'minDE': compute_min_de, 'avgDE': compute_avg_de, 'stdDE': compute_std_de,
+                  'minFDE': compute_min_fde, 'avgFDE': compute_avg_fde, 'stdFDE': compute_std_fde}
     stats_names = list(stats_func.keys())
     stats_meter = {x: {y: AverageMeter() for y in algos} for x in stats_names}
 
@@ -102,6 +101,7 @@ def compute_stats_xyz(f, algos, models, dataset, traj_gt_arr,  prefix_len, pred_
 
         prefix = get_tensor_pose(data, device)[:prefix_len] # T B D
 
+        os.makedirs('./pred_results/h36m_nsamp50/', exist_ok=True)
         save_path = './pred_results/h36m_nsamp50/pred_{}.pkl'.format(i)
 
         with torch.no_grad():

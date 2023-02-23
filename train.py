@@ -19,7 +19,7 @@ from src.dataset.xyz import DatasetH36M, DatasetHumanEva
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--cfg', default='h36m_euler_series_100step')
+    parser.add_argument('--cfg', default='h36m_xyz_parallel_20step')
     parser.add_argument('--seed', type=int, default=0)
     parser.add_argument('--gpu-id', type=int, default=0)
     
@@ -89,7 +89,7 @@ if __name__ == '__main__':
                                      prefix_len, pred_len, cfg.diff_steps)
        
 
-        ddpm = DDPM(denoiser, cfg).to(device)
+        ddpm = DDPM(denoiser, cfg, device).to(device)
 
         optimizer = torch.optim.Adam(ddpm.parameters(), lr=cfg.learning_rate)
 
