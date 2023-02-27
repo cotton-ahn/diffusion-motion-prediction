@@ -17,7 +17,7 @@ from src.viz.euler import video_euler
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--cfg', default='h36m_euler_series_100step')
+    parser.add_argument('--cfg', default='h36m_euler_parallel_20step')
     parser.add_argument('--seed', type=int, default=0)
     parser.add_argument('--gpu-id', type=int, default=0)
     parser.add_argument('--sample-num', type=int, default=50)
@@ -58,7 +58,7 @@ if __name__ == '__main__':
             denoiser = Series_Denoiser(pose_dim, cfg.qkv_dim, cfg.num_layers, cfg.num_heads, 
                                    prefix_len, pred_len, cfg.diff_steps)
         
-        ddpm = DDPM(denoiser, cfg).to(device)
+        ddpm = DDPM(denoiser, cfg, device).to(device)
         ddpm.load_state_dict(torch.load(osp.join(cfg.model_dir, '0500.pth'.format(cfg.max_epoch))))
         ddpm.eval()
 

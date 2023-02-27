@@ -17,7 +17,7 @@ from src.viz.euler import figure_first_euler
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--cfg', default='h36m_euler_series_100step')
+    parser.add_argument('--cfg', default='h36m_euler_series_20step')
     parser.add_argument('--seed', type=int, default=0)
     parser.add_argument('--gpu-id', type=int, default=0)
     parser.add_argument('--sample-num', type=int, default=50)
@@ -58,8 +58,8 @@ if __name__ == '__main__':
             denoiser = Series_Denoiser(pose_dim, cfg.qkv_dim, cfg.num_layers, cfg.num_heads, 
                                    prefix_len, pred_len, cfg.diff_steps)
         
-        ddpm = DDPM(denoiser, cfg).to(device)
-        ddpm.load_state_dict(torch.load(osp.join(cfg.model_dir, 'recent.pth'.format(cfg.max_epoch))))
+        ddpm = DDPM(denoiser, cfg, device).to(device)
+        ddpm.load_state_dict(torch.load(osp.join(cfg.model_dir, '0500.pth'.format(cfg.max_epoch))))
         ddpm.eval()
 
         out_path = osp.join('./pred_results/{}_with_gt.pkl'.format(args.cfg))   
@@ -67,7 +67,7 @@ if __name__ == '__main__':
         os.makedirs('./pred_results', exist_ok=True)        
         os.makedirs(fig_path, exist_ok=True)        
 
-        print('==========Start Visualization==========')
+        print('==========Start Visualization===========')
         sample_euler_gt(out_path, ddpm, args.sample_num, actions, test_set, data_mean, data_std, dim_to_ignore, pose_dim, prefix_len, pred_len, device)
         figure_first_euler(fig_path, out_path, n_prefix, prefix_len, pred_len)
         print('==========Finish Visualization==========')

@@ -6,9 +6,11 @@ import pickle
 import matplotlib.pyplot as plt
 import imageio
 import os.path as osp
+import glob
 import copy
 import matplotlib
-# matplotlib.use('agg')
+import os
+matplotlib.use('agg')
 
 def video_euler(vid_path, out_path, n_prefix, prefix_len, pred_len, row=5, stride=3):
   expmap_data = pickle.load(open(out_path, 'rb'))
@@ -72,7 +74,8 @@ def video_euler(vid_path, out_path, n_prefix, prefix_len, pred_len, row=5, strid
       for i in range(10):
         images.append(imageio.v2.imread('tmp_imgs/{}.png'.format(cnt-1)))
       imageio.v2.mimsave(osp.join(vid_path, 'denoise:{}:{}.gif'.format(k, idx)), images, duration=0.2)
-
+      for fp in glob.glob('./tmp_imgs/*'):
+        os.remove(fp)
 
       fig = plt.figure(figsize=(2*row, 2))
       axes = [None for _ in range(row)]
@@ -104,7 +107,9 @@ def video_euler(vid_path, out_path, n_prefix, prefix_len, pred_len, row=5, strid
       imageio.v2.mimsave(osp.join(vid_path, 'result:{}:{}.gif'.format(k, idx)), images, duration=0.04)
       plt.close()
       plt.clf()
-      
+      for fp in glob.glob('./tmp_imgs/*'):
+        os.remove(fp)
+
 
 def figure_first_euler(fig_path, out_path, n_prefix, prefix_len, pred_len, row=8, stride=2):
   expmap_pose = pickle.load(open(out_path, 'rb'))
@@ -123,17 +128,6 @@ def figure_first_euler(fig_path, out_path, n_prefix, prefix_len, pred_len, row=8
 
   for k in expmap_pose['samples'].keys():
       for idx in range(n_prefix):  
-        # ## calculate distance of samples with deterministic prediction -> ignore since it can be shown as cheery picking.
-        # all_dists = []
-        # for r in range(50):
-        #   dist = []
-        #   for ii in range(prefix_len+pred_len):
-        #     xyz = fkl(expmap_pose['samples'][k][r, idx, ii], parent, offset, rotInd, expmapInd)
-        #     dist.append(np.linalg.norm(xyz-fkl(expmap_pose['deters'][k][0, idx, ii], parent, offset, rotInd, expmapInd)))
-        #   all_dists.append(np.mean(dist))
-            
-        # # plot samples that are different from deterministic prediction.
-        # far_index = np.argsort(all_dists)[::-1][:row]
         far_index = np.arange(0, row)
         for r in range(row+2):
           xyz_prefix = []
@@ -235,6 +229,8 @@ def visualize_euler(vid_path, out_path, n_prefix, row, col, prefix_len, pred_len
             images.append(images[-1])
             
           imageio.v2.mimsave(osp.join(vid_path, '{}:{}.gif'.format(k, idx)), images, duration=0.04)
+          for fp in glob.glob('./tmp_imgs/*'):
+            os.remove(fp)
 
 
 class Ax3DPose(object):
