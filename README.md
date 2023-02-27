@@ -17,7 +17,7 @@ A repository of a paper named "Can We Use Diffusion Probabilistic Models for 3D 
 - Before conducting experiments with Human 3.6M dataset, you need to run `python preprocess.py` first.
 - After running the code, `h36m_euler.pkl` will be created in `./data`.
 
-### Training
+## Training
 ```
 python train.py --cfg h36m_euler_series_20step
 python train.py --cfg h36m_euler_parallel_20step
@@ -28,7 +28,7 @@ python train.py --cfg humaneva_xyz_parallel_20step
 ```
 * Your log will be stored to `./log/[TRAIN]*.txt`.
 
-### Quantitative Evaluation
+## Quantitative Evaluation
 * For deterministic prediction, run below code
     ```
     python eval.py --cfg h36m_euler_series_20step --mode stats
@@ -39,7 +39,7 @@ python train.py --cfg humaneva_xyz_parallel_20step
     python eval.py --cfg humaneva_xyz_parallel_20step --mode stats
     ```
 
-### Qualitative Evaluation
+## Qualitative Evaluation
 * For plotting the prediction video, run below codes.
     ```
     python eval.py --cfg h36m_euler_series_20step --mode viz
@@ -53,13 +53,19 @@ python train.py --cfg humaneva_xyz_parallel_20step
 * For plotting the figure looks similar as we present in paper, please run below code.
     ```
     python first_figure.py --cfg h36m_euler_series_20step
+    python first_figure.py --cfg h36m_euler_parallel_20step
     ```
 
-
 * For visualizing how the noise becomes the data from the reverse process, run below code.
+    ```
+    python viz_diff_process.py --cfg h36m_euler_series_20step
+    python viz_diff_process.py --cfg h36m_euler_parallel_20step
+    ```
 
+## Pretrained model
+* Please find our pre-trained model on `trained_models/dataName_poseType_modelType_stepSize/`
 
-### Make comparison with DLow
+## Make comparison with DLow
 - DLow codes are so well written! So (1) adding our config files and evalataion code to cloned DLow repository and (2) running the DLow code in DLow repository is enough. Below is the detailed process.
 
 1. Copy your preprocessed data (i.e., data_3d_humaneva15.npz) into `DLow/data`.
@@ -71,3 +77,5 @@ python train.py --cfg humaneva_xyz_parallel_20step
     python motion_pred/exp_dlow.py --cfg humaneva_nsamp50
     ```
 3. Run DLow's testing code as their README file instructs.
+    ```
+    ```
