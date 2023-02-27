@@ -18,17 +18,56 @@ A repository of a paper named "Can We Use Diffusion Probabilistic Models for 3D 
 - After running the code, `h36m_euler.pkl` will be created in `./data`.
 
 ### Training
+```
+python train.py --cfg h36m_euler_series_20step
+python train.py --cfg h36m_euler_parallel_20step
+python train.py --cfg h36m_xyz_series_20step
+python train.py --cfg h36m_xyz_parallel_20step
+python train.py --cfg humaneva_xyz_series_20step
+python train.py --cfg humaneva_xyz_parallel_20step
+```
+* Your log will be stored to `./log/[TRAIN]*.txt`.
+
+### Quantitative Evaluation
+* For deterministic prediction, run below code
+    ```
+    python eval.py --cfg h36m_euler_series_20step --mode stats
+    python eval.py --cfg h36m_euler_parallel_20step --mode stats
+    python eval.py --cfg h36m_xyz_series_20step --mode stats
+    python eval.py --cfg h36m_xyz_parallel_20step --mode stats
+    python eval.py --cfg humaneva_xyz_series_20step --mode stats
+    python eval.py --cfg humaneva_xyz_parallel_20step --mode stats
+    ```
+
+### Qualitative Evaluation
+* For plotting the prediction video, run below codes.
+    ```
+    python eval.py --cfg h36m_euler_series_20step --mode viz
+    python eval.py --cfg h36m_euler_parallel_20step --mode viz
+    python eval.py --cfg h36m_xyz_series_20step --mode viz
+    python eval.py --cfg h36m_xyz_parallel_20step --mode viz
+    python eval.py --cfg humaneva_xyz_series_20step --mode viz
+    python eval.py --cfg humaneva_xyz_parallel_20step --mode viz
+    ```
+
+* For plotting the figure looks similar as we present in paper, please run below code.
+    ```
+    python first_figure.py --cfg h36m_euler_series_20step
+    ```
 
 
-### Evaluation
+* For visualizing how the noise becomes the data from the reverse process, run below code.
 
 
 ### Make comparison with DLow
 - DLow codes are so well written! So (1) adding our config files and evalataion code to cloned DLow repository and (2) running the DLow code in DLow repository is enough. Below is the detailed process.
 
-1. 
-
-
-### todo list
-- finish training the code and get results
-- get more visualization results for adding it to webpage 
+1. Copy your preprocessed data (i.e., data_3d_humaneva15.npz) into `DLow/data`.
+2. Run DLow's training code as their README file instructs.
+    ```
+    python motion_pred/exp_vae.py --cfg h36m_nsamp50
+    python motion_pred/exp_vae.py --cfg humaneva_nsamp50
+    python motion_pred/exp_dlow.py --cfg h36m_nsamp50
+    python motion_pred/exp_dlow.py --cfg humaneva_nsamp50
+    ```
+3. Run DLow's testing code as their README file instructs.
