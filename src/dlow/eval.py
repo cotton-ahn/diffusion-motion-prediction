@@ -5,6 +5,8 @@ import sys
 import pickle
 import csv
 from scipy.spatial.distance import pdist
+import torch
+import random
 
 sys.path.append(os.getcwd())
 from utils import *
@@ -127,7 +129,7 @@ def compute_std_fde(pred, gt, *args):
     dist = np.linalg.norm(diff, axis=2)[:, -1]
     return dist.std()
 
-def compute_stats():
+def compute_stats(args):
     stats_func = {'Diversity': compute_diversity, 'minDE': compute_min_de, 'avgDE': compute_avg_de, 'stdDE': compute_std_de,
                   'minFDE': compute_min_fde, 'avgFDE': compute_avg_fde, 'stdFDE': compute_std_fde}
     stats_names = list(stats_func.keys())
@@ -136,12 +138,19 @@ def compute_stats():
     data_gen = dataset.iter_generator(step=cfg.t_his)
     num_samples = 0
     num_seeds = args.num_seeds
+
+    saver = []
+
     for i, data in enumerate(data_gen):
+        save_path = './results/{}/results/pred_{}.pkl'.format(args.cfg, i)
+
         num_samples += 1
         gt = get_gt(data)
         gt_multi = traj_gt_arr[i]
         for algo in algos:
             pred = get_prediction(data, algo, sample_num=cfg.nk, num_seeds=num_seeds, concat_hist=False)
+            if algo == 'dlow':
+                saver = {'raw': data[0], 'pred':pred[0], 'gt': gt[0]}
             for stats in stats_names:
                 val = 0
                 for pred_i in pred:
@@ -151,6 +160,7 @@ def compute_stats():
         for stats in stats_names:
             str_stats = f'{num_samples:04d} {stats}: ' + ' '.join([f'{x}: {y.val:.4f}({y.avg:.4f})' for x, y in stats_meter[stats].items()])
             print(str_stats)
+        pickle.dump(saver, open(save_path, 'wb'))
 
     logger.info('=' * 80)
     for stats in stats_names:
@@ -182,6 +192,15 @@ def get_multimodal_gt():
         traj_gt_arr.append(all_data[ind][:, t_his:, :])
     return traj_gt_arr
 
+def set_random_seed(random_seed):
+    torch.manual_seed(random_seed)
+    torch.cuda.manual_seed(random_seed)
+    torch.cuda.manual_seed_all(random_seed) # if use multi-GPU
+    torch.backends.cudnn.deterministic = True
+    torch.backends.cudnn.benchmark = False
+    np.random.seed(random_seed)
+    random.seed(random_seed)
+    # torch.set_grad_enabled(False)
 
 if __name__ == '__main__':
 
@@ -200,8 +219,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     """setup"""
-    np.random.seed(args.seed)
-    torch.manual_seed(args.seed)
+    set_random_seed(args.seed)
     dtype = torch.float64
     torch.set_default_dtype(dtype)
     device = torch.device('cuda', index=args.gpu_index) if args.gpu_index >= 0 and torch.cuda.is_available() else torch.device('cpu')
@@ -254,4 +272,4 @@ if __name__ == '__main__':
     if args.mode == 'vis':
         visualize()
     elif args.mode == 'stats':
-        compute_stats()
+        compute_stats(args)

@@ -20,7 +20,7 @@ from src.viz.xyz import visualize_xyz
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--cfg', default='humaneva_xyz_series_20step')
+    parser.add_argument('--cfg', default='h36m_xyz_parallel_20step')
     parser.add_argument('--seed', type=int, default=0)
     parser.add_argument('--gpu-id', type=int, default=0)
     parser.add_argument('--sample-num', type=int, default=50)

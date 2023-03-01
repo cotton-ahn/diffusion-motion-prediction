@@ -68,14 +68,22 @@ python train.py --cfg humaneva_xyz_parallel_20step
 ## Make comparison with DLow
 - DLow codes are so well written! So (1) adding our config files and evalataion code to cloned DLow repository and (2) running the DLow code in DLow repository is enough. Below is the detailed process.
 
-1. Copy your preprocessed data (i.e., data_3d_humaneva15.npz) into `DLow/data`.
-2. Run DLow's training code as their README file instructs.
+1. Copy `./src/dlow/eval.py` of our repository into `DLow/motion_pred/eval.py`.
+2. Copy your preprocessed data (i.e., data_3d_humaneva15.npz) into `DLow/data`.
+3. Run DLow's training code as their README file instructs.
     ```
     python motion_pred/exp_vae.py --cfg h36m_nsamp50
     python motion_pred/exp_vae.py --cfg humaneva_nsamp50
     python motion_pred/exp_dlow.py --cfg h36m_nsamp50
     python motion_pred/exp_dlow.py --cfg humaneva_nsamp50
     ```
-3. Run DLow's testing code as their README file instructs.
+4. Run DLow's testing code as their README file instructs.
     ```
+    python motion_pred/eval.py --cfg h36m_nsamp50 model stats
+    python motion_pred/eval.py --cfg humaneva_nsamp50 model stats
+    ```
+
+5. To compare visualization between DLow and Diffusion model, run below code at the root of our repo.
+    ```
+    python viz_comp_dlow.py
     ```
