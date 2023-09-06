@@ -8,7 +8,7 @@ A repository of a paper named "Can We Use Diffusion Probabilistic Models for 3D 
 1. Clone this repository, and move to root of this repo.
 2. Prepare [human3.6m](https://www.cs.stanford.edu/people/ashesh/h3.6m.zip) dataset for euler angle based experiments. Save Folder `h3.6m/` into `./data`.
     - From issues, we just found out that the previous link for h3.6m has been shut down. One would be required to download the original dataset from [human3.6m](http://vision.imar.ro/human3.6m/description.php).
-    - Inside `h3.6m` folder, there should be sub-folders for each human subject, and that folder should contain .txt files (i.e., `h3.6m/S1/directions_1.txt`.)
+    - Inside the `h3.6m` folder, there should be sub-folders for each human subject, and that folder should contain .txt files (i.e., `h3.6m/S1/directions_1.txt`.)
 3. Activate your conda environment, train pytorch based on your system, run `pip install -r requirements.txt`.
     * In my case, since I use cuda=11.6, I used command `conda install pytorch torchvision torchaudio pytorch-cuda=11.6 -c pytorch -c nvidia` to install pytorch.
 4. Clone [DLow]('https://github.com/Khrylx/DLow') repository.
